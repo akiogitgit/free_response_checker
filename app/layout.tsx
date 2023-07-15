@@ -40,7 +40,7 @@ export default function RootLayout({
             maxW: 500,
             mx: 'auto',
             px: '4',
-            mt: '8',
+            my: '8',
           })}
         >
           {children}

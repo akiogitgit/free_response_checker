@@ -14,10 +14,10 @@ type Props = {
 export const Form: FC<Props> = ({ onSubmit }) => {
   const form = useForm<RequestSchema>({
     initialValues: {
-      question: 'アフリカ大陸にある国名を答えよ',
-      correctAnswer: 'ガボン、フリータウン、マラウィなど',
-      answer: 'リヒテンシュタイン、アゼルバイジャン、パラオ',
-      maxScore: 6,
+      question: '',
+      correctAnswer: '',
+      answer: '',
+      maxScore: 0,
     },
     validate: zodResolver(requestSchema),
   })
@@ -32,21 +32,25 @@ export const Form: FC<Props> = ({ onSubmit }) => {
         <TextInput
           label='問題文'
           {...form.getInputProps('question')}
+          placeholder='例）アフリカ大陸にある国名を3つ答えよ'
           errorMessage={(form.errors?.question as string) || ''}
         />
         <TextInput
           label='模範解答'
           {...form.getInputProps('correctAnswer')}
+          placeholder='例）ニジェール、モーリタニア、ナミビアなど'
           errorMessage={(form.errors?.correctAnswer as string) || ''}
         />
         <NumberInput
           label='配点'
           {...form.getInputProps('maxScore')}
+          placeholder='例）6'
           errorMessage={(form.errors?.maxScore as string) || ''}
         />
         <TextInput
           label='採点したい解答'
           {...form.getInputProps('answer')}
+          placeholder='例）エジプト、アフガニスタン、シリア'
           errorMessage={(form.errors?.answer as string) || ''}
         />
         <button
