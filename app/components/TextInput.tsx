@@ -28,6 +28,7 @@ export const TextInput: FC<Props> = ({ label, errorMessage, ...props }) => {
             outlineOffset: '2px',
             px: '2',
             py: '1',
+            w: 'full',
             rounded: '8px',
             transitionDuration: '300ms',
             border: '1px solid gray',
