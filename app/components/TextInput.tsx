@@ -13,6 +13,7 @@ export const TextInput: FC<Props> = ({ label, errorMessage, ...props }) => {
         <span
           className={css({
             display: 'block',
+            fontSize: 'sm',
           })}
         >
           {label}

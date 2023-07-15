@@ -1,3 +1,4 @@
+import { css } from '@/styled-system/css'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -16,7 +17,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div
+          className={css({
+            maxW: 500,
+            mx: 'auto',
+            px: '4',
+            mt: '8',
+          })}
+        >
+          {children}
+        </div>
+      </body>
     </html>
   )
 }

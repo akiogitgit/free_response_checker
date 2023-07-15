@@ -15,6 +15,7 @@ export const NumberInput: FC<Props> = ({ label, errorMessage, ...props }) => {
         <span
           className={css({
             display: 'block',
+            fontSize: 'sm',
           })}
         >
           {label}

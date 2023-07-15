@@ -4,7 +4,8 @@ import { NextApiResponse } from 'next'
 import { NextResponse } from 'next/server'
 
 /**
- * ページの一番上までスクロールします。
+ * フォームの内容を元にGPTにリクエストする文章を生成する
+ * @param {RequestSchema} フォームのリクエストの型
  */
 const generatePrompt = (body: RequestSchema) => {
   const { question, correctAnswer, answer, maxScore } = body
@@ -33,10 +34,15 @@ const generatePrompt = (body: RequestSchema) => {
   return req
 }
 
+/**
+ * GPTのレスポンスに含まれているJSONを抽出して返す
+ * @param {string} GPTのレスポンス
+ */
 const parseGPTResponse = (gptResponse: string): GPTResponse => {
   const regex = /```json([\s\S]*?)```/gm
   const match = regex.exec(gptResponse)
 
+  // JSONがレスポンスに含まれていない
   if (match === null || match?.[1] === null) {
     return {
       isCorrect: false,
@@ -66,14 +72,15 @@ export async function POST(request: Request, res: NextApiResponse) {
     requestSchema.parse(body)
 
     // model: 'gpt-3.5-turbo'の時
-    // openai.createChatCompletion({})を使う
+    // openai.createChatCompletionを使う
     const completion3 = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: [
+        // GPTの正確を返る
         { role: 'system', content: 'You are a helpful assistant.' },
         { role: 'user', content: generatePrompt(body) },
       ],
-      max_tokens: 100,
+      max_tokens: 300,
     })
 
     return NextResponse.json(
