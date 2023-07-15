@@ -5,11 +5,11 @@ import { useForm, zodResolver } from '@mantine/form'
 import { useCallback, useState } from 'react'
 import { NumberInput } from './components/NumberInput'
 import axios from 'axios'
-import { RequestSchema, requestSchema } from '@/libs/schema'
+import { GPTResponse, RequestSchema, requestSchema } from './type'
 
 export default function Home() {
   // Responseの型にする
-  const [result, setResult] = useState()
+  const [gptResponse, setGPTResponse] = useState<GPTResponse>()
   const [errorMessage, setErrorMessage] = useState('')
   const form = useForm<RequestSchema>({
     initialValues: {
@@ -24,11 +24,14 @@ export default function Home() {
   const onSubmit = useCallback(async (params: RequestSchema) => {
     try {
       requestSchema.parse(params)
-      const { data } = await axios.post('/api/scoring', params)
+      const { data } = await axios.post<{ gptResponse: GPTResponse }>(
+        '/api/scoring',
+        params,
+      )
       // const { data } = await axios.post('/api/scoring', { aaa: 'こんにちは' })
 
       console.log(data)
-      setResult(data)
+      setGPTResponse(data.gptResponse)
     } catch (e) {
       if (e instanceof Error) {
         setErrorMessage(e.message)
@@ -128,8 +131,15 @@ export default function Home() {
         >
           結果
         </h2>
-        {result ? JSON.stringify(result, null, 2) : ''}
-        {errorMessage ? errorMessage : ''}
+        {gptResponse ? (
+          <ul>
+            <li>isCorrect: {gptResponse.isCorrect ? 'true' : 'false'}</li>
+            <li>score: {gptResponse.score}</li>
+            <li>reason: {gptResponse.reason}</li>
+            <li>advice: {gptResponse.advice}</li>
+          </ul>
+        ) : null}
+        {errorMessage ? errorMessage : null}
       </div>
     </>
   )

@@ -19,7 +19,6 @@ export const TextInput: FC<Props> = ({ label, errorMessage, ...props }) => {
         </span>
         <input
           type='text'
-          placeholder='https://example.com'
           {...props}
           aria-required='true'
           aria-invalid={!!errorMessage}

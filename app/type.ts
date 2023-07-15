@@ -23,3 +23,25 @@ export const requestSchema = z.object({
 })
 
 export type RequestSchema = z.infer<typeof requestSchema>
+
+/**
+ * GPTのレスポンスから必要なJSONだけを抜き出した時の型
+ */
+export type GPTResponse = {
+  /**
+   * 正解か不正解か
+   */
+  isCorrect: boolean
+  /**
+   * 解答の得点
+   */
+  score: number
+  /**
+   * 得点の理由
+   */
+  reason: string
+  /**
+   * より高い得点にする助言
+   */
+  advice: string
+}
