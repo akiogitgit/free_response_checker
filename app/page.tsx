@@ -1,6 +1,6 @@
 'use client'
 import { css } from '../styled-system/css'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import axios from 'axios'
 import { GPTResponse, RequestSchema, requestSchema } from './type'
 import { Form } from './components/Form'
@@ -15,6 +15,10 @@ export default function Home() {
   const [gptResponse, setGPTResponse] = useState<GPTResponse>()
   const [isLoading, setIsLoading] = useState(false)
   const [maxScore, setMaxScore] = useState(0)
+  const isCorrectResponse = useMemo(
+    () => gptResponse?.score || gptResponse?.reason || gptResponse?.advice,
+    [gptResponse?.advice, gptResponse?.reason, gptResponse?.score],
+  )
 
   const onSubmit = useCallback(async (params: RequestSchema) => {
     setIsLoading(true)
@@ -51,14 +55,24 @@ export default function Home() {
       {isLoading ? (
         <div
           className={center({
-            mt: 4,
+            mt: 8,
           })}
         >
           採点中...
         </div>
       ) : null}
 
-      {gptResponse ? (
+      {gptResponse && !isCorrectResponse && !isLoading ? (
+        <div
+          className={center({
+            mt: 8,
+          })}
+        >
+          結果が返ってきませんでした。再度実行して下さい
+        </div>
+      ) : null}
+
+      {gptResponse && isCorrectResponse && !isLoading ? (
         <div
           className={stack({
             mt: 8,
