@@ -1,7 +1,7 @@
 'use client'
 import { FC } from 'react'
-import { TextInput } from './TextInput'
-import { NumberInput } from './NumberInput'
+import { TextInput } from './base/TextInput'
+import { NumberInput } from './base/NumberInput'
 import { css } from '../../styled-system/css'
 import { useForm, zodResolver } from '@mantine/form'
 import { RequestSchema, requestSchema } from '../type'
@@ -38,7 +38,7 @@ export const Form: FC<Props> = ({ onSubmit }) => {
         <TextInput
           label='模範解答'
           {...form.getInputProps('correctAnswer')}
-          placeholder='例）ニジェール、モーリタニア、ナミビアなど'
+          placeholder='例）アフリカ大陸にある国名を3つ答える'
           errorMessage={(form.errors?.correctAnswer as string) || ''}
         />
         <NumberInput
@@ -50,7 +50,7 @@ export const Form: FC<Props> = ({ onSubmit }) => {
         <TextInput
           label='採点したい解答'
           {...form.getInputProps('answer')}
-          placeholder='例）エジプト、アフガニスタン、シリア'
+          placeholder='例）タンザニア、ジブチ、ガボン'
           errorMessage={(form.errors?.answer as string) || ''}
         />
         <button

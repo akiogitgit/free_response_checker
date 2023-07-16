@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { css } from '../../styled-system/css'
 import { stack } from '@/styled-system/patterns'
-import { Block } from './Block'
+import { Block } from './base/Block'
 
 export const Troubleshooting: FC = () => {
   return (
