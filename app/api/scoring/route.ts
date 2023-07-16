@@ -11,25 +11,28 @@ const generatePrompt = (body: RequestSchema) => {
   const { question, correctAnswer, answer, maxScore } = body
   const req = `
   You are an excellent grader.
+  
+  question:「${question}」
+  Model Answer:「${correctAnswer}」
+  Please grade the following
+  response:「${answer}」
   The output should be a markdown code snippet formatted in the following schema in Japanese:
   \`\`\`json
   {
-    isCorrect: boolean, // correct or incorrect.
+    isCorrect: boolean, // If [response] is correct as an answer to [question] even if [response] does not contain [model answer], [isCorrect] is set to true.
     score: number, // score of the answer.
     reason: string // reason of the score.
     advice: string, // what should have been included.
   }
   \`\`\`
+
   NOTES:
   * Be sure to set your score to an integer between 0 and ${maxScore}. Do not include decimals.
   * If it is a misplaced answer, be sure to set score to 0.
+  * Be sure to calculate the grade by (the number of [model answer] to [question] containing the [response] of the [model answer] / the number of [response] of the [model answer]) * ${maxScore}
+  * If [response] is correct as an answer to [question] even if [response] does not contain [model answer], [isCorrect] is set to true.
   * Please do not include anything other than JSON in your answer.
   * Response must be Japanese
-  問題：「${question}」
-  模範解答：「${correctAnswer}」
-  採点は (問題の回答として正しくて、模範解答の要点を含んでいる個数 / 模範解答の要点の数) * ${maxScore} の計算結果として下さい
-  以下を採点をして下さい
-  解答：「${answer}」
       `
   return req
 }
@@ -85,7 +88,8 @@ export async function POST(request: Request, res: NextApiResponse) {
 
     return NextResponse.json(
       {
-        req: body,
+        requestBody: body,
+        request: generatePrompt(body),
         result: completion3.data.choices[0].message?.content,
         gptResponse: parseGPTResponse(
           completion3.data.choices[0].message?.content || '',
