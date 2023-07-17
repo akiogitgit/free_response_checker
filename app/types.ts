@@ -5,7 +5,7 @@ export const requestSchema = z.object({
     .string()
     .nonempty('問題は必須です')
     .max(255, '255文字以内で入力して下さい'),
-  correctAnswer: z
+  mainPoints: z
     .string()
     .nonempty('模範解答は必須です')
     .max(255, '255文字以内で入力して下さい'),

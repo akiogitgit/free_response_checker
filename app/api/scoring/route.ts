@@ -1,4 +1,4 @@
-import { GPTResponse, RequestSchema, requestSchema } from '@/app/type'
+import { GPTResponse, RequestSchema, requestSchema } from '@/app/types'
 import { openai } from '@/libs/openai'
 import { NextApiResponse } from 'next'
 import { NextResponse } from 'next/server'
@@ -8,18 +8,14 @@ import { NextResponse } from 'next/server'
  * @param {RequestSchema} フォームのリクエストの型
  */
 const generatePrompt = (body: RequestSchema) => {
-  const { question, correctAnswer, answer, maxScore } = body
+  const { question, mainPoints, answer, maxScore } = body
   const req = `
   You are an excellent grader.
   
-  question:「${question}」
-  Model Answer:「${correctAnswer}」
-  Please grade the following
-  response:「${answer}」
   The output should be a markdown code snippet formatted in the following schema in Japanese:
   \`\`\`json
   {
-    isCorrect: boolean, // If [response] is correct as an answer to [question] even if [response] does not contain [model answer], [isCorrect] is set to true.
+    isCorrect: boolean, // correct or incorrect.
     score: number, // score of the answer.
     reason: string // reason of the score.
     advice: string, // what should have been included.
@@ -29,10 +25,14 @@ const generatePrompt = (body: RequestSchema) => {
   NOTES:
   * Be sure to set your score to an integer between 0 and ${maxScore}. Do not include decimals.
   * If it is a misplaced answer, be sure to set score to 0.
-  * Be sure to calculate the grade by (the number of [model answer] to [question] containing the [response] of the [model answer] / the number of [response] of the [model answer]) * ${maxScore}
-  * If [response] is correct as an answer to [question] even if [response] does not contain [model answer], [isCorrect] is set to true.
   * Please do not include anything other than JSON in your answer.
   * Response must be Japanese
+  問題：「${question}」
+  要点：「${mainPoints}」
+  採点は (問題の回答として適切な個数 + 要点を含んでいる個数 / 模範解答の要点の数) * ${maxScore} の計算結果として下さい
+
+  以下を採点をして下さい
+  解答：    「${answer}」
       `
   return req
 }
