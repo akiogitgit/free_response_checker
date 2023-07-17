@@ -2,7 +2,7 @@
 import { css } from '../styled-system/css'
 import { useCallback, useMemo, useState } from 'react'
 import axios from 'axios'
-import { GPTResponse, RequestSchema, requestSchema } from './type'
+import { GPTResponse, RequestSchema, requestSchema } from './types'
 import { Form } from './components/Form'
 import { center, stack } from '../styled-system/patterns'
 import { AboutScoring } from './components/AboutScoring'

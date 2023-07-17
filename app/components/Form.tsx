@@ -4,7 +4,7 @@ import { TextInput } from './base/TextInput'
 import { NumberInput } from './base/NumberInput'
 import { css } from '../../styled-system/css'
 import { useForm, zodResolver } from '@mantine/form'
-import { RequestSchema, requestSchema } from '../type'
+import { RequestSchema, requestSchema } from '../types'
 import { stack } from '@/styled-system/patterns'
 
 type Props = {
@@ -15,7 +15,7 @@ export const Form: FC<Props> = ({ onSubmit }) => {
   const form = useForm<RequestSchema>({
     initialValues: {
       question: '',
-      correctAnswer: '',
+      mainPoints: '',
       answer: '',
       maxScore: 0,
     },
@@ -36,10 +36,10 @@ export const Form: FC<Props> = ({ onSubmit }) => {
           errorMessage={(form.errors?.question as string) || ''}
         />
         <TextInput
-          label='模範解答'
-          {...form.getInputProps('correctAnswer')}
+          label='採点の要点'
+          {...form.getInputProps('mainPoints')}
           placeholder='例）アフリカ大陸にある国名を3つ答える'
-          errorMessage={(form.errors?.correctAnswer as string) || ''}
+          errorMessage={(form.errors?.mainPoints as string) || ''}
         />
         <NumberInput
           label='配点'
