@@ -10,3 +10,7 @@ Free Response Checkerは、回答が記述式の問題を、AIで正誤判定す
 - 開発言語: HTML/CSS, JavaScript(TypeScript)
 - 利用ライブラリ(フレームワーク): Next.js, Panda CSS
 - WebAPI: openai(gpt-3.5-turbo)
+
+![ous1aaaaazzz](https://github.com/akiogitgit/free_response_checker/assets/88410576/5edec4dd-2685-46d9-bdaa-31e3cecab607)
+
+![jju9ous1aaaaazzz](https://github.com/akiogitgit/free_response_checker/assets/88410576/a7fc7c54-927d-4afd-b2f6-e77578ed93d2)
